@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Ordering System</title>
+    <style>
+
+* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('bg new.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Remove background attachment fixed */
+    background-attachment: scroll;
+}
+
+/* Container and Header Section */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: auto; /* Change to auto to accommodate dynamic content */
+    padding-top: 60px; /* To avoid overlap with fixed navbar */
+}
+
+/* Navbar */
+.navbar {
+    color: #fff;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    padding: 1rem 2rem;
+    z-index: 1;
+}
+
+#searchBar {
+    padding: 10px;
+    margin-left: 20px;
+    margin-right: auto;
+    border: 2px solid #ff69b4; /* Light pink border */
+    border-radius: 25px;
+    width: 300px; /* Adjust the width as needed */
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Search bar focus effect */
+#searchBar:focus {
+    border-color: pink; /* Darker pink border on focus */
+    box-shadow: 0px 0px 10px rgba(255, 20, 147, 0.5); /* Light pink shadow */
+}
+
+/* Adjust navbar layout to center search bar */
+.navbar {
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    height: 50px; /* Adjust height as needed */
+    width: auto; /* Keeps the image aspect ratio */
+}
+
+/* Brand name styles */
+.brand-name {
+    font-family: 'Georgia', serif;
+    color: #f4c1c1; /* Light pink color */
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: auto;
+    text-transform: capitalize;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    background-color: pink;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    color: black;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    background-color: #ff4d94; /* Darker shade on hover */
+}
+
+.fixed-header {
+    position: absolute;
+    top: 60px; /* Adjust this value based on the height of your navbar */
+    left: 0;
+    right: 0;
+    padding: 10px;
+    z-index: 1000; /* Ensures the fixed header is above other content */
+    text-align:left;
+    
+}
+
+.fixed-header h1 {
+    margin: 0;
+    font-size: 50px;
+    color: whitesmoke;
+    text-align: center;
+    
+}
+
+.fixed-header #searchBar {
+    margin-top: 10px;
+    width: 50%;
+    max-width: 400px;
+    
+}
+
+
+/* Menu Container Styling */
+.menu-items {
+    padding-top: 150px; /* Adjust this value as needed to add space */
+    margin-top: 20px;
+}
+
+/* Products Container */
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between items */
+    justify-content: center; /* Centers the items in the container */
+}
+
+.product {
+    flex: 1 1 200px; /* Each product takes up at least 200px of width */
+    max-width: 200px; /* Limits the maximum width */
+    border: 2px solid #ffb6c1;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    text-align: center;
+}
+
+
+/* Product Card Styling */
+.product {
+    background-color: wheat;
+    border-radius: 10px;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+    color: black;
+    transition: transform 0.2s;
+}
+
+.product:hover {
+    transform: scale(1.05);
+}
+
+.product img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.product button {
+    background-color: white;
+    color: black;
+    padding: 5px 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    border: 1px solid black;
+}
+
+.product button:hover {
+    background-color: pink;
+}
+
+/* Order Summary */
+.order-summary {
+    display: none; /* Hide order summary by default */
+    width: 500px;
+    background-color: #333; /* Darker background for better contrast */
+    border: 2px solid pink; 
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    right: 85px;
+    top: 180px; /* Adjusted for better placement */
+    z-index: 10; /* Ensure it overlaps products */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    color: pink; /* Change text color to white */
+}
+
+
+.close-order-summary {
+    position:absolute; /* Position it at the top right corner */
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 20px; /* Adjust size as needed */
+    color: pink;
+    cursor: pointer;
+}
+
+.close-order-summary:hover {
+    color: #ff4d94; /* Change color on hover */
+}
+
+.order-summary h2 {
+    font-size: 20px; /* Increase font size */
+    font-weight: bold;
+    color: pink;
+}
+
+/* Order Table Styling */
+#orderTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#orderTable th,
+#orderTable td {
+    border: 1px solid pink;
+    padding: 7px;
+    text-align: center;
+}
+
+#orderTable th {
+    background-color: pink;
+    color: black;
+}
+
+#orderTable td {
+    background-color: #333;
+    color: pink;
+}
+
+.payment button {
+    background-color: pink; /* Black background */
+    color: black; /* Pink text color */
+    border: none;
+    padding: 3px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.payment button:hover {
+    background-color: #ff69b4; /* Pink background on hover */
+    color: #000; /* Black text color on hover */
+}
+
+/* Place Order Button Styling */
+#placeOrderBtn {
+    width: 50%;
+    padding: 10px;
+    background-color: pink;
+    color: black;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    border: 1px solid whitesmoke;
+}
+
+#placeOrderBtn:hover {
+    background-color: #ff4d94;
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position:fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: pink;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    color: black;
+    text-align: center;
+}
+
+.modal-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.modal-content th,
+.modal-content td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.close {
+    color: black;
+    font-size: 30px;
+    float: right;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #ff4d94; /* Change color on hover */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .menu-container,
+    .order-summary {
+        width: 100%;
+    }
+    .order-summary {
+        margin-top: 20px;
+        position: relative;
+        top: auto; /* Remove absolute positioning on small screens */
+        right: auto; /* Remove right positioning on small screens */
+    }
+}
+    </style>
+</head>
+<body style="background-image: url('bg\ new.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
+
+        <nav class="navbar">
+            <!-- Logo image -->
+            <img src="logo.jpg" alt="Logo" class="logo">
+            <p class="brand-name">Kim’s Sugar Bliss</p>
+
+            <input type="text" id="searchBar" placeholder="Search" onkeyup="searchProducts()" size="50" aria-label="Search dishes">
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#" id="loginBtn">Cart</a></li>
+                <li><a href="#" class="sign-up">Log out</a></li>
+            </ul>
+        </nav>
+    </div>
+    
+    <div class="menu-container">
+       
+        
+        <div class="menu-items" id="menuItems">
+            <!-- Product items -->
+            <div class="products-container">
+            <div class="product" data-id="SKU001" data-name="DONUT" data-price="180">
+                <img src="Sweet Vanilla Glaze DONUT.jpg" loading="lazy">
+                <p>Sweet Vanilla Glaze DONUT</p>
+                <p>₱180</p>
+                <button onclick="addToOrder('SKU001', 'Sweet Vanilla Glaze DONUT', 180)">Add </button>
+                <td>
+                <button onclick="removeFromOrder('SKU001')">Decrease</button>
+            </td>
+            </div>
+            <div class="product" data-id="SKU002" data-name="Cherry Blossom (Sakura) Ice Cream" data-price="140">
+                <img src="Cherry Blossom (Sakura) Ice Cream.jpg" loading="lazy">
+                <p>Cherry Blossom (Sakura) Ice Cream</p>
+                <p>₱140</p>
+                <button onclick="addToOrder('SKU002', 'Cherry Blossom (Sakura) Ice Cream', 140)">Add </button>
+                <td>
+                    <button onclick="removeFromOrder('SKU002')">Decrease</button>
+                </td>
+            </div>
+            <div class="product" data-id="SKU003" data-name="Chocolate Raspberry CUPCAKE" data-price="80">
+                <img src="Chocolate Raspberry CUPCAKE.jpg" loading="lazy">
+                <p>Chocolate Raspberry CUPCAKE</p>
+                <p>₱80</p>
+                <button onclick="addToOrder('SKU003', 'Chocolate Raspberry CUPCAKE', 80)">Add</button>
+                <td>
+                    <button onclick="removeFromOrder('SKU003')">Decrease</button>
+                </td>
+            </div>
+            <div class="product" data-id="SKU004" data-name="Rose MACARONS" data-price="120">
+                <img src="Rose MACARONS.jpg" loading="lazy">
+                <p>Rose MACARONS</p>
+                <p>₱120</p>
+                <button onclick="addToOrder('SKU004', 'Rose MACARONS', 120)">Add</button>
+                <td>
+                    <button onclick="removeFromOrder('SKU004')">Decrease</button>
+                </td>
+            </div>
+            <div class="product" data-id="SKU005" data-name="Dark Chocolate and Strawberry SLICED CAKE" data-price="100">
+                <img src="Dark Chocolate and Strawberry SLICED CAKE.jpg" loading="lazy">
+                <p>Dark Chocolate and Strawberry SLICED CAKE</p>
+                <p>₱100</p>
+                <button onclick="addToOrder('SKU005', 'Dark Chocolate and Strawberry SLICED CAKE', 100)">Add</button>
+                <td>
+                    <button onclick="removeFromOrder('SKU005')">Decrease</button>
+                </td>
+            </div>
+            <div class="product" data-id="SKU006" data-name="Cherry and Black Licorice LOLLIPOP" data-price="90">
+                <img src="Cherry and Black Licorice LOLLIPOP.jpg" loading="lazy">
+                <p>Cherry and Black Licorice LOLLIPOP</p>
+                <p>₱90</p>
+                <button onclick="addToOrder('SKU006', 'Cherry and Black Licorice LOLLIPOP', 90)">Add</button>
+                <td>
+                    <button onclick="removeFromOrder('SKU006')">Decrease</button>
+                </td>
+            </div>
+            <div class="product" data-id="SKU007" data-name="Oreo Truffles " data-price="200">
+                <img src="Oreo Truffles.jpg" loading="lazy">
+                <p>Oreo Truffles </p>
+                <p>₱200</p>
+                <button onclick="addToOrder('SKU007', 'Oreo Truffles ', 200)">Add </button>
+                <td>
+                    <button onclick="removeFromOrder('SKU007')">Decrease</button>
+                </td>
+            </div>
+            <div class="product" data-id="SKU008" data-name="Pink Chocolate-Covered Pretzels with Black Sprinkles" data-price="220">
+                <img src="Pink Chocolate-Covered Pretzels with Black Sprinkles.jpg" loading="lazy">
+                <p>Pink Chocolate-Covered Pretzels with Black Sprinkles</p>
+                <p>₱220</p>
+                <button onclick="addToOrder('SKU008', 'Pink Chocolate-Covered Pretzels with Black Sprinkles', 220)">Add </button>
+                <td>
+                    <button onclick="removeFromOrder('SKU008')">Decrease</button>
+                </td>
+            </div>
+            <div class="product" data-id="SKU009" data-name="Black Sesame Shake" data-price="150">
+                <img src="Black Sesame Shake.jpg" loading="lazy">
+                <p>Black Sesame Shake</p>
+                <p>₱150</p>
+                <button onclick="addToOrder('SKU009', 'Black Sesame Shake', 150)">Add </button>
+                <td>
+                    <button onclick="removeFromOrder('SKU009')">Decrease</button>
+                </td>
+            </div>
+            <div class="product" data-id="SKU010" data-name="Pink Lemonade with Black Ice Cubes" data-price="60">
+                <img src="Pink Lemonade with Black Ice Cubes.jpg" loading="lazy">
+                <p>Pink Lemonade with Black Ice Cubes</p>
+                <p>₱60</p>
+                <button onclick="addToOrder('SKU010', 'Pink Lemonade with Black Ice Cubes', 60)">Add</button>
+                <td>
+                    <button onclick="removeFromOrder('SKU010')">Decrease</button>
+                </td>
+            </div>
+        </div>
+    </div>
+
+    
+
+        <div class="order-summary">
+            <!-- Close button to hide order summary -->
+            <button class="close-order-summary" onclick="closeOrderSummary()">X</button>
+            
+            <h2>Your Orders</h2>
+            
+            <table id="orderTable">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="orderList">
+                    <!-- Order items will be added here dynamically -->
+                </tbody>
+            </table>
+        
+            <p>Total: ₱<span id="grandTotal">0</span></p>
+            
+            <div class="payment">
+                <label for="paymentAmount">Payment: ₱</label>
+                <input type="number" id="paymentAmount" placeholder="Enter payment amount" aria-label="Payment amount">
+                <button onclick="calculateChange()">Submit</button>
+            </div>
+        
+            <p>Change: ₱<span id="changeAmount">0</span></p>
+        
+            <button id="placeOrderBtn" onclick="showReceiptPopup()">Place Order</button>
+        </div>
+        
+
+    <div id="receiptModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeReceiptPopup()">&times;</span>
+
+            <h2>Receipt</h2>
+            <table id="receiptTable">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="receiptList">
+                    <!-- Receipt items will be added here dynamically -->
+                </tbody>
+            </table>
+            <p>Total: ₱<span id="receiptGrandTotal">0</span></p>
+            <p>Payment: ₱<span id="receiptPayment">0</span></p>
+            <p>Change: ₱<span id="receiptChange">0</span></p>
+        </div>
+    </div>
+
+    <script>
+
+let order = [];
+
+// Function to load order from local storage when the page loads
+function loadOrderFromLocalStorage() {
+    const savedOrder = JSON.parse(localStorage.getItem('order'));
+    if (savedOrder) {
+        order = savedOrder;
+        updateOrderList();
+    }
+}
+
+// Function to save the order to local storage
+function saveOrderToLocalStorage() {
+    localStorage.setItem('order', JSON.stringify(order));
+}
+
+// Function to add product to the order
+function addToOrder(id, name, price) {
+    let orderItem = order.find(item => item.id === id); // Check if item already exists
+
+    if (orderItem) {
+        orderItem.quantity++; // Increase the quantity
+    } else {
+        order.push({ id, name, price, quantity: 1 }); // Add new item
+    };
+    updateOrderList();
+    showFeedback(`${name} added to order!`); // User feedback
+    saveOrderToLocalStorage(); // Save to local storage
+}
+
+function removeFromOrder(id) {
+    let orderItem = order.find(item => item.id === id); // Find the item in the order
+
+    if (orderItem) {
+        if (orderItem.quantity > 1) {
+            orderItem.quantity--; // Decrease the quantity
+        } else {
+            order = order.filter(item => item.id !== id); // Remove the item if quantity is 1
+        }
+        updateOrderList(); // Update the display
+    }
+}
+
+function updateOrderList() {
+    const orderListElement = document.getElementById("orderList");
+    orderListElement.innerHTML = ""; // Clear the current display
+
+    order.forEach(item => {
+        const row = document.createElement("tr"); // Create a new row
+        row.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>₱${item.price}</td>
+            <td>₱${(item.price * item.quantity).toFixed(2)}</td>
+            <td>
+                <button onclick="removeFromOrder('${item.id}')">Remove</button>
+            </td>
+        `;
+        orderListElement.appendChild(row); // Add the row to the order summary
+    });
+
+    updateGrandTotal(); // Update the total price
+}
+
+
+// Function to update the order summary display
+function updateOrderList() {
+    const orderList = document.getElementById("orderList");
+    orderList.innerHTML = ''; // Clear previous items
+    let grandTotal = 0;
+
+    order.forEach(item => {
+        const total = item.price * item.quantity;
+        grandTotal += total;
+
+        const row = document.createElement("tr");
+
+        const nameCell = document.createElement("td");
+        nameCell.textContent = item.name;
+        row.appendChild(nameCell);
+
+        const quantityCell = document.createElement("td");
+        quantityCell.textContent = item.quantity;
+        row.appendChild(quantityCell);
+
+        const priceCell = document.createElement("td");
+        priceCell.textContent = `₱${item.price.toFixed(2)}`; // Format price
+        row.appendChild(priceCell);
+
+        const totalCell = document.createElement("td");
+        totalCell.textContent = `₱${total.toFixed(2)}`; // Format total
+        row.appendChild(totalCell);
+
+        orderList.appendChild(row);
+    });
+
+    document.getElementById("grandTotal").textContent = grandTotal.toFixed(2);
+}
+
+
+
+// Function to calculate and display the change
+function calculateChange() {
+    const paymentAmount = parseFloat(document.getElementById("paymentAmount").value);
+    const grandTotal = parseFloat(document.getElementById("grandTotal").textContent);
+
+    if (isNaN(paymentAmount) || paymentAmount < 0) {
+        alert("Please enter a valid payment amount.");
+        return;
+    }
+
+    if (paymentAmount >= grandTotal) {
+        const change = paymentAmount - grandTotal;
+        document.getElementById("changeAmount").textContent = change.toFixed(2);
+    } else {
+        alert("Insufficient payment amount.");
+    }
+}
+
+// Show the receipt popup with order details and reset cart
+function showReceiptPopup() {
+    const receiptList = document.getElementById("receiptList");
+    receiptList.innerHTML = ''; // Clear previous items
+
+    let grandTotal = 0;
+    order.forEach(item => {
+        const total = item.price * item.quantity;
+        grandTotal += total;
+
+        const row = document.createElement("tr");
+
+        const nameCell = document.createElement("td");
+        nameCell.textContent = item.name;
+        row.appendChild(nameCell);
+
+        const quantityCell = document.createElement("td");
+        quantityCell.textContent = item.quantity;
+        row.appendChild(quantityCell);
+
+        const priceCell = document.createElement("td");
+        priceCell.textContent = `₱${item.price.toFixed(2)}`; // Format price
+        row.appendChild(priceCell);
+
+        const totalCell = document.createElement("td");
+        totalCell.textContent = `₱${total.toFixed(2)}`; // Format total
+        row.appendChild(totalCell);
+
+        receiptList.appendChild(row);
+    });
+
+    document.getElementById("receiptGrandTotal").textContent = grandTotal.toFixed(2);
+    document.getElementById("receiptPayment").textContent = document.getElementById("paymentAmount").value;
+    document.getElementById("receiptChange").textContent = document.getElementById("changeAmount").textContent;
+
+    // Display the modal
+    document.getElementById("receiptModal").style.display = "flex";
+
+    // Reset the cart
+    resetCart();
+}
+
+
+
+// Close the receipt popup
+function closeReceiptPopup() {
+    document.getElementById("receiptModal").style.display = "none";
+}
+
+// Function to reset the cart
+function resetCart() {
+    order = []; // Clear the order array
+    updateOrderList(); // Clear the order summary display
+    document.getElementById("grandTotal").textContent = '0.00';
+    document.getElementById("paymentAmount").value = ''; // Clear payment input
+    document.getElementById("changeAmount").textContent = '0.00';
+    localStorage.removeItem('order'); // Clear local storage
+}
+
+// Function to search for products
+function searchProducts() {
+    const searchTerm = document.getElementById("searchBar").value.toLowerCase();
+    const products = document.querySelectorAll(".product");
+
+    products.forEach(product => {
+        const productName = product.querySelector("p").textContent.toLowerCase(); // Updated selector to target the product name
+        const productSKU = product.getAttribute("data-id").toLowerCase(); // Changed 'data-sku' to 'data-id'
+
+        // Show product if search term matches name or SKU, otherwise hide
+        if (productName.includes(searchTerm) || productSKU.includes(searchTerm)) {
+            product.style.display = "block";
+        } else {
+            product.style.display = "none";
+        }
+    });
+}
+
+function openLoginModal() {
+    document.getElementById("loginModal").style.display = "flex";
+}
+
+function closeLoginModal() {
+    document.getElementById("loginModal").style.display = "none";
+}
+
+// Close modal when clicking outside the content area
+window.onclick = function(event) {
+    const modal = document.getElementById("loginModal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+
+// Get the login button and order summary elements
+const loginBtn = document.getElementById('loginBtn');
+const orderSummary = document.querySelector('.order-summary');
+
+// Add click event listener to the login button
+loginBtn.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent default link behavior
+    orderSummary.style.display = 'block'; // Show the order summary
+    console.log("Login button clicked, showing order summary"); // For debugging
+
+    
+});
+
+// Load order from local storage on page load
+window.onload = loadOrderFromLocalStorage;
+
+// Get the close button for the order summary
+const closeOrderSummaryBtn = document.querySelector('.close-order-summary');
+
+// Add click event listener to the close button
+closeOrderSummaryBtn.addEventListener('click', function() {
+    document.querySelector('.order-summary').style.display = 'none'; // Hide the order summary
+    console.log("Order summary closed"); // For debugging
+
+    
+});
+
+// Get the Place Order button
+const placeOrderBtn = document.getElementById('placeOrderBtn');
+
+// Add click event listener to the Place Order button
+placeOrderBtn.addEventListener('click', function() {
+    // Hide the order summary
+    const orderSummary = document.querySelector('.order-summary');
+    if (orderSummary) {
+        orderSummary.style.display = 'none'; // Hide order summary
+    }
+
+    // Optionally, include any additional logic for placing the order
+    console.log("Place order button clicked, hiding order summary"); // Debugging message
+});
+
+
+    </script>
+</body>
+</html>

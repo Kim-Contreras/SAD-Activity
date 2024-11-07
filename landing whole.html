@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Landing Page</title>
+ <style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+/* Container and Header Section */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    padding-top: 60px; /* to avoid overlap with fixed navbar */
+}
+
+.header {
+    background-image: url('bg.jpg'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Navbar */
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    padding: 1rem 2rem;
+    z-index: 1;
+}
+
+.logo {
+    height: 50px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    background-color: pink;
+    padding: 10px 15px; /* Adjusted padding */
+    border-radius: 20px; /* Match the border radius */
+    color: black;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    background-color: #ff4d94; /* Darker shade on hover */
+}
+
+.header-content {
+    position: absolute;
+    top: 80px; /* Adjust this value to control how high it appears */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.top-heading {
+    font-size: 3em;
+    color: pink;
+    margin: 0;
+}
+
+/* Brand name styles */
+.brand-name {
+    font-family: 'Georgia', serif;
+    color: pink;
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: auto;
+    text-transform: capitalize;
+}
+
+
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-image: url('modal3.jpg'); /* Change this to your background image */
+    background-size: cover; /* Cover the entire modal */
+    color: #fff; /* White text */
+    margin: 5% auto; /* Center the modal */
+    padding: 20px;
+    width: 50%; /* Could be more or less, depending on screen size */
+    max-width: 500px; /* Maximum width */
+    border-radius: 10px;
+    text-align: center;
+}
+
+.container {
+    
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.close {
+    color: black;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #ff69b4;
+}
+
+/* Login Sign Up Form Styles */
+.login-section h2 {
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 2rem;
+    color: black;
+    width: 200px;
+}
+
+form {
+    display: flex;
+    flex-direction:column;
+    color: black;
+}
+
+label {
+    margin: 10px 0 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    outline: none;
+    color: #333;
+}
+
+.login-btn {
+    background-color: pink;
+    color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #ff69b4;
+}
+
+
+/* Additional Styles for Header Content */
+.header-content h1 {
+    color: pink;
+}
+
+.header-content p {
+    color: #fff;
+}
+ </style>
+</head>
+<body>
+  <div class="header">
+    <nav class="navbar">
+      <img src="logo.jpg" alt="Logo" class="logo">
+      <p class="brand-name">Kim’s Sweet & Desserts</p>
+      <ul class="nav-links">
+        <li><a href="#">About us</a></li>
+        <li><a href="#" id="loginBtn">Login</a></li>
+        <li><a href="#" id="signupBtn">Admin</a></li>
+      </ul>
+    </nav>
+    <div class="header-content">
+      <h1 class="top-heading">Craving Something Sweet?</h1>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="container">
+        <div class="login-section">
+          <h2>Login</h2>
+          <form id="modalLoginForm">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="username@gmail.com" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+
+            
+            <button type="submit" class="login-btn">Sign In</button>
+
+           
+
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sign Up Modal -->
+  <div id="signupModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="container">
+        <div class="login-section">
+          <h2>Admin Account</h2>
+          <form id="signupForm">
+            <label for="signupEmail">Email</label>
+            <input type="email" id="signupEmail" required placeholder="username@gmail.com">
+
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" required placeholder="Password">
+
+            <button type="submit" class="login-btn">Sign Up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+ <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const loginModal = document.getElementById('loginModal');
+    const signupModal = document.getElementById('signupModal');
+    const closeBtns = document.getElementsByClassName('close');
+    
+    // Sample valid credentials
+    const validEmail = "user@gmail.com";
+    const validPassword = "password123"; // Replace with your valid password
+
+    const validAdminEmail = "admin@example.com";
+    const validAdminPassword = "admin123"; // Replace with your valid admin password
+    
+    // Open the login modal when the login link is clicked
+    loginBtn.onclick = function(event) {
+        event.preventDefault(); // Prevent the default anchor behavior
+        loginModal.style.display = 'block';
+    }
+
+    // Open the signup modal when the sign up link is clicked
+    signupBtn.onclick = function(event) {
+        event.preventDefault(); // Prevent the default anchor behavior
+        signupModal.style.display = 'block';
+    }
+
+    // Close the modals when the close button is clicked
+    for (let closeBtn of closeBtns) {       
+        closeBtn.onclick = function() {
+            loginModal.style.display = 'none';
+            signupModal.style.display = 'none';
+        }
+    }
+
+    // Close the modals when clicking outside of the modal content
+    window.onclick = function(event) {
+        if (event.target === loginModal) {
+            loginModal.style.display = 'none';
+        }
+        if (event.target === signupModal) {
+            signupModal.style.display = 'none';
+        }
+    }
+
+    // Handle login form submission
+    const modalLoginForm = document.getElementById('modalLoginForm');
+    modalLoginForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Check if the credentials are correct
+        if (email === validEmail && password === validPassword) {
+            // Redirect to the new page (e.g., dashboard.html)
+            window.location.href = "index.html";  // Replace with your desired page
+        } else {
+            alert("Invalid credentials. Please try again.");
+        }
+
+        loginModal.style.display = 'none'; // Close the modal after submission
+    });
+
+    // Handle admin (signup) form submission
+    const signupForm = document.getElementById('signupForm');
+    signupForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const signupEmail = document.getElementById('signupEmail').value;
+        const signupPassword = document.getElementById('signupPassword').value;
+
+        // Check if the credentials are correct for Admin
+        if (signupEmail === validAdminEmail && signupPassword === validAdminPassword) {
+            // Redirect to the admin dashboard after successful admin login
+            window.location.href = "Admin.html";  // Replace with your admin page
+        } else {
+            alert("Invalid Admin credentials. Please try again.");
+        }
+
+        signupModal.style.display = 'none'; // Close the modal after submission
+    });
+});
+</script>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Ordering System - Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url('bg new.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .navbar {
+            color: #fff;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            padding: 1rem 2rem;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        #searchBar {
+            padding: 10px;
+            border: 2px solid #ff69b4;
+            border-radius: 25px;
+            width: 300px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #searchBar:focus {
+            border-color: pink;
+            box-shadow: 0px 0px 10px rgba(255, 20, 147, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+        }
+
+        .brand-name {
+            font-family: 'Georgia', serif;
+            color: #f4c1c1;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: auto;
+        }
+
+        .nav-links a {
+            background-color: pink;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: black;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #ff4d94;
+        }
+
+        .menu-container {
+            padding-top: 100px;
+            margin-top: 20px;
+        }
+
+        .products-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .product {
+            background-color: wheat;
+            border-radius: 10px;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+            color: black;
+            transition: transform 0.2s;
+        }
+
+        .product:hover {
+            transform: scale(1.05);
+        }
+
+        .product img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .product button {
+            background-color: white;
+            color: black;
+            padding: 5px 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+            border: 1px solid black;
+        }
+
+        .product button:hover {
+            background-color: pink;
+        }
+
+        .admin-panel {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+        }
+
+        .admin-panel .product-edit label {
+            display: block;
+            margin-top: 5px;
+        }
+
+        .admin-panel input[type="number"] {
+            width: 100%;
+            margin-top: 5px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .admin-panel button.save-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .admin-panel button.save-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <img src="logo.jpg" alt="Logo" class="logo">
+        <p class="brand-name">Kim’s Sugar Bliss</p>
+        <input type="text" id="searchBar" placeholder="Search" aria-label="Search dishes">
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#" id="loginBtn">Cart</a></li>
+            <li><a href="#" class="sign-up">Log out</a></li>
+        </ul>
+    </nav>
+
+    <div class="menu-container">
+        <div class="products-container" id="productContainer">
+            <!-- Product items -->
+            <div class="product" data-id="SKU001">
+                <img src="Sweet Vanilla Glaze DONUT.jpg" alt="Sweet Vanilla Glaze DONUT">
+                <p>Sweet Vanilla Glaze DONUT</p>
+                <p>₱180</p>
+                <div class="admin-panel">
+                    <div class="product-edit">
+                        <label>Price:</label>
+                        <input type="number" value="180">
+                        <label>Stock:</label>
+                        <input type="number" value="10">
+                        <button class="save-btn">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+                    
+
+            <!-- Repeat for other products as needed -->
+        <div class="product" data-id="SKU002" data-name="Cherry Blossom (Sakura) Ice Cream" data-price="140">
+            <img src="Cherry Blossom (Sakura) Ice Cream.jpg" loading="lazy">
+            <p>Cherry Blossom (Sakura) Ice Cream</p>
+            <p>₱140</p>
+            <div class="admin-panel">
+                <div class="product-edit">
+                    <label>Price:</label>
+                    <input type="number" value="180">
+                    <label>Stock:</label>
+                    <input type="number" value="10">
+                    <button class="save-btn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+        <div class="product" data-id="SKU003" data-name="Chocolate Raspberry CUPCAKE" data-price="80">
+            <img src="Chocolate Raspberry CUPCAKE.jpg" loading="lazy">
+            <p>Chocolate Raspberry CUPCAKE</p>
+            <p>₱80</p>
+            <div class="admin-panel">
+                <div class="product-edit">
+                    <label>Price:</label>
+                    <input type="number" value="180">
+                    <label>Stock:</label>
+                    <input type="number" value="10">
+                    <button class="save-btn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+        <div class="product" data-id="SKU004" data-name="Rose MACARONS" data-price="120">
+            <img src="Rose MACARONS.jpg" loading="lazy">
+            <p>Rose MACARONS</p>
+            <p>₱120</p>
+            <div class="admin-panel">
+                <div class="product-edit">
+                    <label>Price:</label>
+                    <input type="number" value="180">
+                    <label>Stock:</label>
+                    <input type="number" value="10">
+                    <button class="save-btn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+        <div class="product" data-id="SKU005" data-name="Dark Chocolate and Strawberry SLICED CAKE" data-price="100">
+            <img src="Dark Chocolate and Strawberry SLICED CAKE.jpg" loading="lazy">
+            <p>Dark Chocolate and Strawberry SLICED CAKE</p>
+            <p>₱100</p>
+            <div class="admin-panel">
+                <div class="product-edit">
+                    <label>Price:</label>
+                    <input type="number" value="180">
+                    <label>Stock:</label>
+                    <input type="number" value="10">
+                    <button class="save-btn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+        <div class="product" data-id="SKU006" data-name="Cherry and Black Licorice LOLLIPOP" data-price="90">
+            <img src="Cherry and Black Licorice LOLLIPOP.jpg" loading="lazy">
+            <p>Cherry and Black Licorice LOLLIPOP</p>
+            <p>₱90</p>
+            <div class="admin-panel">
+                <div class="product-edit">
+                    <label>Price:</label>
+                    <input type="number" value="180">
+                    <label>Stock:</label>
+                    <input type="number" value="10">
+                    <button class="save-btn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+        <div class="product" data-id="SKU007" data-name="Oreo Truffles " data-price="200">
+            <img src="Oreo Truffles.jpg" loading="lazy">
+            <p>Oreo Truffles </p>
+            <p>₱200</p>
+            <div class="admin-panel">
+                <div class="product-edit">
+                    <label>Price:</label>
+                    <input type="number" value="180">
+                    <label>Stock:</label>
+                    <input type="number" value="10">
+                    <button class="save-btn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+        <div class="product" data-id="SKU008" data-name="Pink Chocolate-Covered Pretzels with Black Sprinkles" data-price="220">
+            <img src="Pink Chocolate-Covered Pretzels with Black Sprinkles.jpg" loading="lazy">
+            <p>Pink Chocolate-Covered Pretzels with Black Sprinkles</p>
+            <p>₱220</p>
+            <div class="admin-panel">
+                <div class="product-edit">
+                    <label>Price:</label>
+                    <input type="number" value="180">
+                    <label>Stock:</label>
+                    <input type="number" value="10">
+                    <button class="save-btn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+        <div class="product" data-id="SKU009" data-name="Black Sesame Shake" data-price="150">
+            <img src="Black Sesame Shake.jpg" loading="lazy">
+            <p>Black Sesame Shake</p>
+            <p>₱150</p>
+            <div class="admin-panel">
+                <div class="product-edit">
+                    <label>Price:</label>
+                    <input type="number" value="180">
+                    <label>Stock:</label>
+                    <input type="number" value="10">
+                    <button class="save-btn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+        <div class="product" data-id="SKU010" data-name="Pink Lemonade with Black Ice Cubes" data-price="60">
+            <img src="Pink Lemonade with Black Ice Cubes.jpg" loading="lazy">
+            <p>Pink Lemonade with Black Ice Cubes</p>
+            <p>₱60</p>
+            <div class="admin-panel">
+                <div class="product-edit">
+                    <label>Price:</label>
+                    <input type="number" value="180">
+                    <label>Stock:</label>
+                    <input type="number" value="10">
+                    <button class="save-btn">Save Changes</button>
+                </div>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        let order = [];
+        let totalPrice = 0;
+
+        function addToOrder(id, name, price) {
+            const productIndex = order.findIndex(item => item.id === id);
+            if (productIndex > -1) {
+                order[productIndex].quantity += 1;
+            } else {
+                order.push({ id, name, price, quantity: 1 });
+            }
+            updateOrderSummary();
+        }
+
+        function removeFromOrder(id) {
+            const productIndex = order.findIndex(item => item.id === id);
+            if (productIndex > -1) {
+                order[productIndex].quantity -= 1;
+                if (order[productIndex].quantity <= 0) {
+                    order.splice(productIndex, 1);
+                }
+            }
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            const orderItemsDiv = document.getElementById('orderItems');
+            orderItemsDiv.innerHTML = '';
+            totalPrice = 0;
+            order.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.innerText = `${item.name} x ${item.quantity} - ₱${item.price * item.quantity}`;
+                orderItemsDiv.appendChild(itemDiv);
+                totalPrice += item.price * item.quantity;
+            });
+            document.getElementById('totalPrice').innerText = totalPrice;
+        }
+
+        function saveChanges(id) {
+            const priceInput = document.getElementById(`price${id}`);
+            const stockInput = document.getElementById(`stock${id}`);
+            const newPrice = parseFloat(priceInput.value);
+            const newStock = parseInt(stockInput.value);
+            if (!isNaN(newPrice) && !isNaN(newStock)) {
+                // Update product data (this would be saved in a real application)
+                const productElement = document.querySelector(`.product[data-id="${id}"]`);
+                productElement.querySelector('.product-price').innerText = newPrice;
+                productElement.setAttribute('data-price', newPrice);
+                alert(`Changes saved for ${productElement.querySelector('p').innerText}: New Price - ₱${newPrice}, New Stock - ${newStock}`);
+            } else {
+                alert('Please enter valid values for price and stock.');
+            }
+        }
+
+        function searchProducts() {
+            const input = document.getElementById('searchBar').value.toLowerCase();
+            const products = document.querySelectorAll('.product');
+            products.forEach(product => {
+                const productName = product.querySelector('p').innerText.toLowerCase();
+                if (productName.includes(input)) {
+                    product.style.display = '';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
